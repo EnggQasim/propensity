@@ -1,0 +1,130 @@
+<form class="example" action="{{url_for('search')}}" method="post">
+        <input type="text" placeholder="CNIC | Account No | Cell" name="search">
+        <button type="submit"><i class="fa fa-search"></i></button>
+
+      </form>
+      <hr>
+</div>
+
+<!--end if admin-->
+
+    
+    <div class="container">
+        
+        {%if s %}         
+            {%for row in s %}           
+            <div class="row">                
+                    <div class="col-md-5">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading"><h1>{{row[1]}}
+                                
+                            </h1></div>
+                            <div class="panel-body">
+                                <label>Acc_No#</label>: {{row[3]}}<br>
+                                <label>Branch code#</label>: {{row[4]}}<br>
+                                <label>CNIC#</label>: {{row[2]}}<br>
+                                <label>Cell#</label>: {{row[8]}}<br>
+                                <label>E-mail</label>: {{row[9]}}<br>
+                                <label>Call Status:</label>
+                                {%if row[5]==0 %}
+                                <label style="color:red;">NO</label>
+                                {%else%}
+                                <label style="color:#228B22;">YES</label>
+                                {%endif %}
+
+                            </div>
+                        </div>
+                    </div><!--col1-->
+                    <div class="col-md-3">
+                        
+                        <div class="bg-primary">
+                            <script type="text/javascript">
+                            
+                                i = {{row[10]}};
+                                i{{row[0]}} = {{row[10]}}
+                                
+
+                                                                
+                                // Load the Visualization API and the corechart package.
+                                google.charts.load('current', {'packages':['corechart']});
+                          
+                                // Set a callback to run when the Google Visualization API is loaded.
+                                google.charts.setOnLoadCallback(drawChart);
+                          
+                                // Callback that creates and populates a data table,
+                                // instantiates the pie chart, passes in the data and
+                                // draws it.
+                                function drawChart() {
+                          
+                                  // Create the data table.
+                                  var data = new google.visualization.DataTable();
+                                  data.addColumn('string', 'Topping');
+                                  data.addColumn('number', 'Slices');
+                                  data.addRows([
+                                    ['Intrested', i{{row[0]}}],
+                                    ['Not Intrested', 1-i{{row[0]}}],                                    
+                                  ]);
+                          
+                                  // Set chart options
+                                  var options = {'title':'Propensity Score',
+                                                 'width':380,
+                                                 'height':300,
+                                                 'legend':'top',
+                                                 slices: [{color: '#228B22'},{color: '#ff0000'}]
+                                                 };
+                          
+                                  // Instantiate and draw our chart, passing in some options.
+                                  var chart = new google.visualization.PieChart(document.getElementById('score{{loop.index}}'));
+                                  chart.draw(data, options);
+                                }
+                              </script>
+
+                            <div id="score{{loop.index}}" style="position: relative;margin-left: -30px;">{{row[10]}}</div>
+                        </div>
+                        
+                    </div><!--col2-->
+
+                    <div class="col-md-4">
+                        
+                        <form method="POST">
+                            <input type="submit" value="Save" class="btn btn-primary">
+                            <h3>Your Feedback</h3>
+                            <div class="row">
+                                <div class="col-xs-6">
+                                    <div class="form-group">
+                                        <label for="sel1">Select Intrest Level</label>
+                                        <select class="form-control" id="sel1" name="status">
+                                            <option>Intrested</option>
+                                            <option>Not Intrested</option>
+                                            <option>Call later</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="col-xs-6">
+                                        <div class="form-group">
+                                            <label for="sel2">Call Status</label>
+                                            <select class="form-control" id="sel2" name="call">
+                                                <option value="1">YES</option>
+                                                <option value="0">NO</option>                                
+                                            </select>
+                                            <input type="hidden" value="home" name="page">
+                                        </div>
+                                    </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="comment">Comment:</label>
+                                <textarea class="form-control" rows="5" id="comment" name="c"></textarea>
+                            </div>
+
+                            
+                        </form>
+                    </div><!--col3-->
+             <h1></h1>   
+            </div>
+           
+
+            {% endfor %}
+        {%endif%}
+
+       

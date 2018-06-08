@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>UBL Machine Learning Model</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="stylesheet" type="text/css" href="static/style.css">
+
+</head>
+<body>
+<!-- http://www.jquery2dotnet.com/ -->
+<div class="container">
+        {%include('top_menu.html')%}
+                
+    
+<!--if admin-->
+
+{%if session['type']=="admin"%}
+{%include('admin.html')%}
+{%endif%}
+
+{%include('call_operator.html')%}
+         
+</body>
+
+<style>
+    * {
+  box-sizing: border-box;
+}
+
+/* Style the search field */
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid grey;
+  float: left;
+  width: 80%;
+  background: #f1f1f1;
+}
+
+/* Style the submit button */
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: #2196F3;
+  color: white;
+  font-size: 17px;
+  border: 1px solid grey;
+  border-left: none; /* Prevent double borders */
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: #0b7dda;
+}
+
+/* Clear floats */
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+.score {
+    width : 160px;
+    height: 160px;
+    border-radius: 100% !important;
+    color: #fff;
+    background-color: #669ae1;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 28px;
+    padding-top: 35px;
+    border:solid 3px #333;
+  
+    margin-top: 50px;
+}
+.score label{
+    font-size: 22px;
+    text-shadow: 3px 3px 4px #000;
+}
+
+
+</style>
+</html>

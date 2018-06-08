@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="stylesheet" type="text/css" href="static/style.css">
+<style>
+* {
+  box-sizing: border-box;
+}
+
+#myInput {
+  background-image: url('/css/searchicon.png');
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  width: 100%;
+  font-size: 16px;
+  padding: 12px 20px 12px 40px;
+  border: 1px solid #ddd;
+  margin-bottom: 12px;
+}
+
+#myTable ,table{
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+table th, table td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1 !important;
+}
+</style>
+</head>
+<body>
+    {%include('top_menu.html')%}
+
+<div class="container">
+ {%if s%}
+<h1>Pakistanzinda bad</h1>
+
+ {%endif%}
+<h2>Customers</h2>
+
+<p class="text-danger">Note: * Dear {{session['username']}} Click on row for update Call Details</p>
+<input type="text" id="myInput" onkeyup="myFunction()" placeholder="Search..." title="Type in a name">
+
+
+  
+  <table class="table table-bordered table-striped">
+      <tr class="header">
+        <th style="">Name</th>
+        <th style="">CNIC</th>
+        <th style="">Account No</th>
+        <th style="">Phone</th>
+        <th style="">Score</th>
+        <th style="">Update</th>
+      </tr>
+      <tbody id="myTable">
+   {%if not error %}     
+  {%for row in resutls%}
+  <tr id="id{{row[0]}}">
+    <td>{{row[1]}}</td>
+    <td>{{row[2]}}</td>
+    <td>{{row[3]}}</td>
+    <td>{{row[8]}}</td>
+    <td>{{row[10]}}</td>
+    <td>
+     ...
+    <script> 
+        $(document).ready(function(){
+          $("#panel{{row[0]}}").hide(200);
+          $("#c{{row[0]}}").click(function(){
+            $("#panel{{row[0]}}").slideUp();
+          });
+            $("#id{{row[0]}}").click(function(){
+                $("#panel{{row[0]}}").slideToggle("slow");
+            });
+        });
+      </script>
+
+    </td>
+  </tr>
+
+  <tr id="panel{{row[0]}}">
+<td colspan="6">
+          
+      <form method="POST" action="{{url_for('call_status_update')}}" enctype="multipart/form-data" id="panel{{row[0]}}">
+        <input type="hidden" value="{{row[0]}}" name="id">
+        <input type="hidden" value="calls" name="page">
+        
+
+        <!--Model-->
+
+        <!--end Model-->
+       <div class="row">
+        <div class="col-xs-8">
+        <label>Intrest Level</label>
+        <select class="form-control" id="sel1" name='status'>
+        
+        <option value="1">Intrested</option>
+        <option value="0">Not Intrested</option>
+        <option value="cl">Call Later!</option>
+        </select>
+        
+        <label for="comment">Comment:</label>
+        <textarea class="form-control" rows="5" id="comment" name="c"></textarea>
+      </div>
+
+      <div class="col-xs-4">
+        <label class="btn btn-danger" style="float: right;" id="c{{row[0]}}">&times;</label><br>
+          <label for="sel2">Call Status</label>
+          <select class="form-control"  name="call">
+              <option value="1">YES</option>
+              <option value="0">NO</option>                                
+          </select>
+<hr>  
+        <input type="submit" value="Save" class="btn btn-success">
+        </form>
+      </div>
+    </div>
+  </td>
+  </tr>
+  {%endfor%}
+  {%else%}
+  <tr>
+    <td colspan="6"><h2 class="text-danger">Not available Data</h2></td>
+  </tr>
+  {%endif%}
+  
+
+</tbody>
+</table>
+
+<script>
+$(document).ready(function(){
+  $("#myInput").on("keyup", function() {
+    var value = $(this).val().toLowerCase();
+    $("#myTable tr").filter(function() {
+      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    });
+  });
+});
+</script>
+</div>
+</body>
+</html>

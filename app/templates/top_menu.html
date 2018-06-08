@@ -1,0 +1,40 @@
+<style>
+        .navbar-inverse a{
+            color: #fff !important;
+        }
+        .navbar-inverse{
+            border:none !important;
+        }
+    </style>
+
+    <div class="container">
+<nav class="navbar navbar-inverse" style="border-radius: 0px; background-color: lightskyblue;">
+        <div class="container-fluid">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>                        
+            </button>
+            <a class="navbar-brand" href="{{url_for('index')}}">UBL | Propensity Model</a>
+          </div>
+          <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+              <li><a href="{{url_for('index')}}">Home</a></li>                      
+              <li>
+                  {%if session.get('callers_ids') == None%}
+                  <a href="{{url_for('customers_show')}}">Cutomers</a>
+                  {%else%}
+                  <a href="{{url_for('calls')}}">Cutomers</a>
+                  {%endif%}
+                </li>
+              
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#"><span class="glyphicon glyphicon-user"></span>  {% print(session['username'])%}</a></li>
+              <li><a href="{{url_for('logout')}}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div><!--container-->
