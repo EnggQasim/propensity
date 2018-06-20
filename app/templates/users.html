@@ -86,7 +86,7 @@ table th, table td {
     <td>
      ...
     <script> 
-        $(document).ready(function(){
+        $(document).ready(function(){        
           $("#panel{{row[0]}}").hide(200);
           $("#c{{row[0]}}").click(function(){
             $("#panel{{row[0]}}").slideUp();
@@ -153,7 +153,7 @@ table th, table td {
 <script>
 $(document).ready(function(){
   $("#myInput").on("keyup", function() {
-    var value = $(this).val().toLowerCase();
+    var value = $(this).val().toLowerCase();    
     $("#myTable tr").filter(function() {
       $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     });

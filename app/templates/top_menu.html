@@ -22,11 +22,13 @@
             <ul class="nav navbar-nav">
               <li><a href="{{url_for('index')}}">Home</a></li>                      
               <li>
+                {%if session['type']!="admin"%}
                   {%if session.get('callers_ids') == None%}
                   <a href="{{url_for('customers_show')}}">Cutomers</a>
                   {%else%}
                   <a href="{{url_for('calls')}}">Cutomers</a>
                   {%endif%}
+                {%endif%}
                 </li>
               
             </ul>

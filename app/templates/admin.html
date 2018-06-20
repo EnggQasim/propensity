@@ -1,61 +1,151 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <ul class="nav nav-pills">
-    <li><a href="{{url_for('index')}}">Dashboard</a></li>
-    <li class="active"><a data-toggle="pill" href="#home">Home</a></li>
-    <li><a data-toggle="pill" href="#menu1">Pie Chart</a></li>
-    <li><a data-toggle="pill" href="#menu2">Menu 2</a></li>
-    <li><a data-toggle="pill" href="#menu3">Menu 3</a></li>
+    <li><a href="{{url_for('dashboard')}}">Dashboard</a></li>
+  
 </ul>
 
+{%if matrix %}
+
+<script type="text/javascript">
+
+  // Load the Visualization API and the corechart package.
+  google.charts.load('current', {'packages':['corechart']});
+
+  // Set a callback to run when the Google Visualization API is loaded.
+  google.charts.setOnLoadCallback(drawChart);
+
+  // Callback that creates and populates a data table,
+  // instantiates the pie chart, passes in the data and
+  // draws it.
+  function drawChart() {
+
+    // Create the data table.
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Topping');
+    data.addColumn('number', 'Slices');
+    data.addRows([
+      {%for row in matrix%}
+      ['True Positive', {{row[0]}}],
+      ['True Negative', {{row[1]}}],
+      ['False Positive', {{row[2]}}],
+      ['False Negative', {{row[3]}}]
+      {%endfor%}
+    ]);
+
+    // Set chart options
+    var options = {//'title':'Confusion Matrix',
+                    sliceVisibilityThreshold:0,
+                  // 'width':600,
+                   //'height':500,
+                 /*  slices : {
+                     0 :{color: 'green'},
+                     1 :{color: 'red'},
+                     2 :{color: 'yellow'},
+                     3 :{color: 'lightgreen'}
+                   }   */                
+                   };
+
+    // Instantiate and draw our chart, passing in some options.
+    var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+    chart.draw(data, options);
+    
+  }
+</script>
+            
+<!--Div that will hold the pie chart-->
+
+{%endif%}
 
 <div class="tab-content">
         <div id="home" class="tab-pane fade in active">
-          <h3>Dashboard</h3>
-          <p>Here we have to display admin relevent chart and data</p>
+          
+          {%if success or failer%}
+          <div class="row">
+            <div class="col-md-12">
+                <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+                <script type="text/javascript">
+                  google.charts.load('current', {'packages':['corechart']});
+                  google.charts.setOnLoadCallback(drawChart);
+            
+                  function drawChart() {
+                    var data = google.visualization.arrayToDataTable([
+                      ['Year', 'Success', 'Failure', 'Total'],
+                      {%for s in success%}
+                      ['{{s[0]}}',{{s[1]}},{{s[2]}}, {{s[1]+s[2]}}],
+                      {%endfor%}  
+                    ]);
+            
+                    var options = {
+                      title: 'Success VS Failure calls',
+                      curveType: 'function',
+                      legend: { position: 'bottom' },
+                      titleTextStyle: {      
+                      fontSize: 22, // 12, 18 whatever you want (don't specify px)
+                      },
+                      //height : 100%,
+                      
+                    };
+            
+                    var chart = new google.visualization.LineChart(document.getElementById('curve_chart'));
+            
+                    chart.draw(data, options);
+                  }
+                </script>
+               <style>
+                  #curve_chart {
+                  width: 100%; 
+                  //min-height: 450px;
+                   }
+                .row {
+                  margin:0 !important;
+                  }
+               </style>
+                <div id="curve_chart" ></div>
+               
+<br>
+            </div><!--col1-->
+            <div class="col-md-6"><div id="chart_div"></div></div><!--col2-->
+            <div class="col-md-6">
+            <table border="1" width="100%" class="table table-bordered">
+            <caption>Actual VS Prediction</caption>
+            <tr align="center">
+            <td rowspan="4"><h3>A<br>c<br>t<br>u<br>a<br>l</h3></td>
+            <td colspan="3"><h3>Predict</h3></td>
+            </tr>
+            {%for row in matrix%}
+            <tr align="center">
+            <td>&nbsp;</td>
+            <th>True</th>
+            <th>Negative</th>
+            </tr>
+
+            <tr align="center">
+              <th>True</th>
+              <td>{{row[0]}}</td>
+              <td>{{row[2]}}</td>
+            </tr>
+
+            <tr align="center">
+            <th>Negative</th>
+            <td>{{row[1]}}</td>
+            <td>{{row[3]}}</td>
+            </tr>
+            {%endfor%}
+            </table>
+            </div><!--col3-->
+            
+          </div>
+          
+              
+          {%endif%}
         </div>
         <div id="menu1" class="tab-pane fade">
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
                  <!--Load the AJAX API-->
     
-    <script type="text/javascript">
-
-      // Load the Visualization API and the corechart package.
-      google.charts.load('current', {'packages':['corechart']});
-
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.charts.setOnLoadCallback(drawChart);
-
-      // Callback that creates and populates a data table,
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
-
-        // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-        data.addColumn('number', 'Slices');
-        data.addRows([
-          ['Mushrooms', 3],
-          ['Onions', 1],
-          ['Olives', 1],
-          ['Zucchini', 1],
-          ['Pepperoni', 2]
-        ]);
-
-        // Set chart options
-        var options = {'title':'How Much Pizza I Ate Last Night',
-                       'width':600,
-                       'height':500};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-                
-    <!--Div that will hold the pie chart-->
-    <div id="chart_div"></div>
+    
         </div>
         <div id="menu2" class="tab-pane fade">
           <h3>Menu 2</h3>

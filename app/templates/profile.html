@@ -14,22 +14,6 @@
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <link rel="stylesheet" type="text/css" href="static/style.css">
 
-</head>
-<body>
-<!-- http://www.jquery2dotnet.com/ -->
-<div class="container">
-        {%include('top_menu.html')%}
-                
-    
-<!--if admin-->
-
-{%if session['type']=="admin"%}
-{%include('admin.html')%}
-{%endif%}
-
-{%include('call_operator.html')%}
-         
-</body>
 
 <style>
     * {
@@ -90,4 +74,21 @@ form.example::after {
 
 
 </style>
+</head>
+<body>
+  <!-- http://www.jquery2dotnet.com/ -->
+<div class="container">
+        {%include('top_menu.html')%}    
+<!--if admin-->
+
+{%if session['type']=="admin"%}
+{%include('admin.html')%}
+{%else%}
+{%include('call_operator.html')%}
+{%endif%}
+
+
+         
+</body>
+
 </html>

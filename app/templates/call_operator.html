@@ -10,7 +10,10 @@
 
     
     <div class="container">
-        
+        <!--Display Home single custumer value updates-->
+        {%if home_data_update%}
+        <h2 class="text-success">Successfully updated!</h2>
+        {%endif%}
         {%if s %}         
             {%for row in s %}           
             <div class="row">                
@@ -86,7 +89,7 @@
 
                     <div class="col-md-4">
                         
-                        <form method="POST">
+                        <form method="POST" action="{{url_for('call_status_update')}}">
                             <input type="submit" value="Save" class="btn btn-primary">
                             <h3>Your Feedback</h3>
                             <div class="row">
@@ -109,6 +112,7 @@
                                                 <option value="0">NO</option>                                
                                             </select>
                                             <input type="hidden" value="home" name="page">
+                                            <input type="hidden" value="{{row[0]}}" name="id">
                                         </div>
                                     </div>
                             </div>
@@ -119,9 +123,10 @@
 
                             
                         </form>
-                    </div><!--col3-->
-             <h1></h1>   
+                        
+                    </div><!--col3-->  
             </div>
+            <hr>
            
 
             {% endfor %}
