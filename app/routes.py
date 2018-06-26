@@ -137,8 +137,8 @@ def customers_show():
     for i in session['ids']:
         cids += "'"+str(i).strip()+"',"
 
-    cursor.execute('SELECT * FROM customers where (call_status="" or call_status="0" or call_status="cl" or intrest_level="cl") and(id not in('+cids[:-1]+')) order by score desc limit 2')
-    print('SELECT * FROM customers where (call_status="" or call_status="0" or call_status="cl" or intrest_level="cl") and(id not in('+cids[:-1]+')) order by score desc limit 2')
+    cursor.execute('SELECT * FROM customers where (call_status="" or call_status="0" or call_status="cl" or intrest_level="cl") and(id not in('+cids[:-1]+')) order by score desc limit 5')
+    print('SELECT * FROM customers where (call_status="" or call_status="0" or call_status="cl" or intrest_level="cl") and(id not in('+cids[:-1]+')) order by score desc limit 5')
 
     data = cursor.fetchall() 
     session['callers_ids']=[]
@@ -211,10 +211,6 @@ def call_status_update():
                 db.commit()
                 print("Update====================",newList)
                 print("pid===",pid)
-            else:
-                session['callers_ids']=[]
-                session['ids']=[0]
-            
             
             session.modified = True
             print(session['ids'])
@@ -230,40 +226,20 @@ def call_status_update():
         
         else:
             error = "Sorry"
+            session['callers_ids']=[]
+            session['ids']=[0]
             return render_template('users.html', error=error, callers=session['ids'])
     db.close()
         
 #=================Dashboard====================
-# confusion matrix
-@app.route("/confusion_matrix", methods=['POST','GET'])
-def confusion_matrix():
+# Create user for application
+
+@app.route("/add_user", methods=['GET','POST'])
+def add_user():
     db = dbs()
-    cursor = db.cursor()
-    #True Positive
-    rows = cursor.execute('select count(*) from customers where intrest_level=1 and predict_intrest_level=1')
-    data = cursor.fetchall()
-    if rows > 0:
-        for row in data:
-            tp=row[0]
-    # False Positive
-    rows = cursor.execute('select count(*) from customers where intrest_level=0 and predict_intrest_level=1')
-    data = cursor.fetchall()
-    if rows > 0:
-        for row in data:
-            fp=row[0]
-    #True Negative
-    rows = cursor.execute('select count(*) from customers where intrest_level=1 and predict_intrest_level=0')
-    data = cursor.fetchall()
-    if rows > 0:
-        for row in data:
-            tn=row[0]
-    #False Negative
-    rows = cursor.execute('select count(*) from customers where intrest_level=0 and predict_intrest_level=0')
-    data = cursor.fetchall()
-    if rows > 0:
-        for row in data:
-            fn=row[0]    
-    return render_template("profile.html", tp=tp, fp=fp, tn=tn, fn=fn)
+    db.close()
+    return render_template('add_user.html')
+
 
 # confusion matrix
 @app.route("/dashboard", methods=['POST','GET'])
